@@ -4,17 +4,12 @@ import {useEffect, useState} from "react";
 import axios from 'axios';
 
 function Overview() {
-    //State
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
-    //function
-
-
     const fetchPosts = async () => {
         setLoading(true);
-
         try {
             const response = await axios.get('http://localhost:3000/posts');
             setPosts(response.data);
@@ -30,15 +25,7 @@ function Overview() {
 
     return (
         <div>
-            <div className="button-section-overview">
-            <button
-                onClick={fetchPosts}
-                className="get-button">Get posts
-            </button>
-            </div>
-
             {error && <p>Helaas is het volgende fout gegaan tijdens het ophalen van de gegevens: {error}</p>}
-
             <section className="overview-section outer-content-container">
                 <div className="inner-content-container">
                     <h1>Bekijk alle {posts.length} posts op het platform</h1>

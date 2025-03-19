@@ -13,15 +13,13 @@ function PostDetails () {
     const [error, setError] = useState(null);
 
     const fetchPost = async () => {
-
         setLoading(true);
-
         try {
             const response = await axios.get(`http://localhost:3000/posts/${id}`);
             setPost(response.data);
         } catch (err) {
             setError(err.message);
-            console.error(err);
+            alert('Er is iets mis gegaan bij het verzenden van de post. Probeer het opnieuw.');
         } finally {setLoading(false);}
     }
 
@@ -35,9 +33,7 @@ function PostDetails () {
         <section className="post-detail-section outer-content-container">
             {loading ? (<p>Laden..</p>) :
             <div className="inner-content-container__text-restriction">
-
                 {error && <p>Helaas is het volgende fout gegaan tijdens het ophalen van de gegevens: {error}</p>}
-
                 <h1>{title}</h1>
                 <h2>{subtitle}</h2>
                 <p className="post-detail-author">Geschreven door <em>{author}</em> op {formatDateString(created)}</p>
