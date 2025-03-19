@@ -4,7 +4,7 @@ import calculateReadTime from '../../helpers/calculateReadTime.js';
 import {useNavigate} from 'react-router-dom';
 
 function NewPost() {
-    const [formState, setFormState] = useState({
+    const [newPost, setNewPost] = useState({
         title: '',
         subtitle: '',
         author: '',
@@ -14,8 +14,8 @@ function NewPost() {
     const navigate = useNavigate();
 
     function handleChange(e) {
-        setFormState({
-            ...formState,
+        setNewPost({
+            ...newPost,
             [e.target.name]: e.target.value,
         })
     }
@@ -24,11 +24,11 @@ function NewPost() {
         e.preventDefault();
 
         console.log({
-            ...formState,
+            ...setNewPost,
             shares: 0,
             comments: 0,
             created: new Date().toISOString(),
-            readTime: calculateReadTime(formState.content),
+            readTime: calculateReadTime(newPost.content),
         });
 
         console.log('De blog is succesvol verzameld! 🌈');
@@ -46,7 +46,7 @@ function NewPost() {
                         id="post-title"
                         name="title"
                         required
-                        value={formState.title}
+                        value={newPost.title}
                         onChange={handleChange}
                     />
                     <label htmlFor="post-subtitle">Subtitle</label>
@@ -55,7 +55,7 @@ function NewPost() {
                         id="post-subtitle"
                         name="subtitle"
                         required
-                        value={formState.subtitle}
+                        value={newPost.subtitle}
                         onChange={handleChange}
                     />
                     <label htmlFor="post-author">Naam en achternaam</label>
@@ -64,7 +64,7 @@ function NewPost() {
                         id="post-author"
                         name="author"
                         required
-                        value={formState.author}
+                        value={newPost.author}
                         onChange={handleChange}
                     />
                     <label htmlFor="post-content">Blogpost</label>
@@ -76,7 +76,7 @@ function NewPost() {
                         required
                         minLength={300}
                         maxLength={2000}
-                        value={formState.content}
+                        value={newPost.content}
                         onChange={handleChange}></textarea>
                    <button type="submit">
                         Toevoegen

@@ -1,19 +1,43 @@
 import {Link, useParams} from 'react-router-dom';
-import posts from '../../constants/data.json';
 import formatDateString from '../../helpers/formatDateString.js';
 import {CaretLeft, Clock} from "@phosphor-icons/react";
 import './PostDetail.css';
+import axios from "axios";
+import {useEffect, useState} from "react";
 
-function PostDetail() {
+function PostDetails () {
     const {id} = useParams();
 
-    const {title, readTime, subtitle, author, created, content, comments, shares} = posts.find((post) => {
-        return post.id.toString() === id;
-    });
+    const [post, setPost] = useState({});
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    const fetchPost = async () => {
+
+        setLoading(true);
+
+        try {
+            const response = await axios.get(`http://localhost:3000/posts/${id}`);
+            setPost(response.data);
+        } catch (err) {
+            setError(err.message);
+            console.error(err);
+        } finally {setLoading(false);}
+    }
+
+    useEffect(() => {
+        void fetchPost();
+    }, [id]);
+
+    const { title, subtitle, content, created, author, readTime, comments, shares } = post;
 
     return (
         <section className="post-detail-section outer-content-container">
+            {loading ? (<p>Laden..</p>) :
             <div className="inner-content-container__text-restriction">
+
+                {error && <p>Helaas is het volgende fout gegaan tijdens het ophalen van de gegevens: {error}</p>}
+
                 <h1>{title}</h1>
                 <h2>{subtitle}</h2>
                 <p className="post-detail-author">Geschreven door <em>{author}</em> op {formatDateString(created)}</p>
@@ -28,10 +52,9 @@ function PostDetail() {
                     <CaretLeft color="#38E991" size={22}/>
                     <p>Terug naar de overzichtspagina</p>
                 </Link>
-
-            </div>
+            </div>}
         </section>
     );
 }
 
-export default PostDetail;
+export default PostDetails;

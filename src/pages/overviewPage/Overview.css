@@ -35,3 +35,11 @@
     flex-grow: 1;
     flex-shrink: 1;
 }
+
+.button-section-overview {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.get-button
